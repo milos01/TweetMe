@@ -1,0 +1,20 @@
+{
+  "name": "TweetMe",
+  "description": "TweetMe app",
+  "main": "",
+  "authors": [
+    "milos01 <milosa942@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/milos01/TweetMe",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-beta"
+  }
+}
