@@ -42,8 +42,7 @@ class FetchTwitterDataFail extends Notification
     public function toArray($notifiable)
     {
         return [
-            'invoice_id' => 1,
-            'amount' => 2,
+            'message' => 'Dude, not valid URL.',
         ];
     }
 }

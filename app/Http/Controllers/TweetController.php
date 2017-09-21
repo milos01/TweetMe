@@ -32,12 +32,11 @@ class TweetController extends Controller
 
     	$foundTweet = $this->ifTweetExists($tweetId);
     	if($foundTweet != null){
-    		dd($foundTweet->tweet_id);
+    		$this->checkForUpdate($tweetId);
     	}else{
     		FetchTwitterDataJob::dispatch($tweetId, $this->userFollowersSum);
     	}
 
-    
     	return back();
 
     }
@@ -53,6 +52,10 @@ class TweetController extends Controller
     	return end($urlPathPieces);
     }
 
+    private function checkForUpdate($tweetId){
+    	$tweet = $this->findTweetById($tweetId);
+    	$this->checkAndUpdate($tweet);
+    }
 
     private function ifTweetExists($tweetId){
     	return $this->findTweetById($tweetId);
