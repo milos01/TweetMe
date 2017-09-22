@@ -36,7 +36,7 @@ class FetchTwitterDataJob implements ShouldQueue
      */
     public function handle(TwitterService $twitterService, TweetCount $tweetCount)
     {   
-
+        
         $tweet = $twitterService->getRetweetsIds($this->tweetId);
         foreach ($tweet->ids as $userId) {
             $user = $twitterService->getUserFollowers($userId);
@@ -47,14 +47,14 @@ class FetchTwitterDataJob implements ShouldQueue
         
     }
 
-    // /**
-    //  * The job failed to process.
-    //  *
-    //  * @param  Exception  $exception
-    //  * @return void
-    //  */
-    // public function failed(Exception $exception)
-    // {
-    //     // Notification::send(TweetCount::first(), new FetchTwitterDataFail());
-    // }
+    /**
+     * The job failed to process.
+     *
+     * @param  Exception  $exception
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        Notification::send(TweetCount::first(), new FetchTwitterDataFail());
+    }
 }

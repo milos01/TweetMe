@@ -18,6 +18,7 @@ class SaveTweetCount
     public $tweetCount;
     public $tweetId;
     public $userFollowersSum;
+    
     /**
      * Create a new event instance.
      *

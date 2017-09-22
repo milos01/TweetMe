@@ -20,7 +20,7 @@ class SaveTweetCountListener
     }
 
     /**
-     * Handle the event.
+     * Handle SaveTweetCount the event.
      *
      * @param  SaveTweetCount  $event
      * @return void

@@ -26,19 +26,27 @@ class TweetController extends Controller
         $this->userFollowersSum = 0;
     }
 
+	/**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function findTweet(FindTweetRequest $request){
     	$tweetUrl = $request->tweet_url;
     	$tweetId = $this->getTweetId($tweetUrl);
 
     	$foundTweet = $this->ifTweetExists($tweetId);
-    	if($foundTweet != null){
-    		$this->checkForUpdate($tweetId);
-    	}else{
+    	if ($foundTweet == null) {
     		FetchTwitterDataJob::dispatch($tweetId, $this->userFollowersSum);
+    	}else{
+    		$needToUpdate = $this->checkForUpdate($foundTweet);
+	    	if($needToUpdate){
+	    		$this->deleteTweet($foundTweet);
+	    		FetchTwitterDataJob::dispatch($tweetId, $this->userFollowersSum);
+	    	}
     	}
 
     	return back();
-
     }
 
     /**
@@ -52,12 +60,24 @@ class TweetController extends Controller
     	return end($urlPathPieces);
     }
 
-    private function checkForUpdate($tweetId){
-    	$tweet = $this->findTweetById($tweetId);
-    	$this->checkAndUpdate($tweet);
+    /**
+     * Check if the tweet needs to be updated in database.
+     *
+     * @return void
+     */
+    private function checkForUpdate($tweet){
+    	// $tweet = $this->findTweetById($tweetId);
+    	return $this->checkAndUpdate($tweet);
     }
 
+	/**
+     * Check if the tweet exists database.
+     *
+     * @return \Illuminate\Http\Response
+     */
     private function ifTweetExists($tweetId){
-    	return $this->findTweetById($tweetId);
+    	$foundTweet = $this->findTweetById($tweetId);
+
+    	return $foundTweet;
     }
 }
